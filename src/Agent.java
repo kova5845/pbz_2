@@ -1,4 +1,5 @@
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.sql.Date;
@@ -9,9 +10,9 @@ public class Agent {
     private SimpleStringProperty agentSurname;
     private SimpleStringProperty agentPatronymic;
     private SimpleStringProperty companyShortName;
-    private Date date;
-    private Date dateOfStart;
-    private Date dateOfFinish;
+    private SimpleObjectProperty<Date> date;
+    private SimpleObjectProperty<Date> dateOfStart;
+    private SimpleObjectProperty<Date> dateOfFinish;
 
     public String getCompanyShortName() {
         return companyShortName.get();
@@ -57,27 +58,39 @@ public class Agent {
         this.agentName.set(agentName);
     }
 
-    public Date getDateOfFinish() {
-        return dateOfFinish;
-    }
-
-    public void setDateOfStart(Date dateOfStart) {
-        this.dateOfStart = dateOfStart;
-    }
-
-    public void setDateOfFinish(Date dateOfFinish) {
-        this.dateOfFinish = dateOfFinish;
-    }
-
-    public Date getDateOfStart() {
-        return dateOfStart;
-    }
-
-    public Date getDate() {
+    public SimpleObjectProperty<Date> dateProperty() {
         return date;
     }
 
+    public SimpleObjectProperty<Date> dateOfStartProperty() {
+        return dateOfStart;
+    }
+
+    public SimpleObjectProperty<Date> dateOfFinishProperty() {
+        return dateOfFinish;
+    }
+
+    public Date getDateOfStart() {
+        return dateOfStart.get();
+    }
+
+    public Date getDateOfFinish() {
+        return dateOfFinish.get();
+    }
+
+    public Date getDate() {
+        return date.get();
+    }
+
+    public void setDateOfStart(Date dateOfStart) {
+        this.dateOfStart.set(dateOfStart);
+    }
+
+    public void setDateOfFinish(Date dateOfFinish) {
+        this.dateOfFinish.set(dateOfFinish);
+    }
+
     public void setDate(Date date) {
-        this.date = date;
+        this.date.set(date);
     }
 }

@@ -1,3 +1,4 @@
+import java.sql.Date;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -35,37 +36,31 @@ public class Table {
 
     public Table() {
         pagination = new Pagination((data.size() / rowsPerPage + 1), 0);
-        table = new TableView<>();
-        table.setMinSize(711, 300);
-        faculty = new TableColumn<>("факультет");
-        faculty.setCellValueFactory(new PropertyValueFactory<>("faculty"));
-        department = new TableColumn<>("кафедра");
-        department.setCellValueFactory(new PropertyValueFactory<>("department"));
-        name = new TableColumn("имя");
-        name.setCellValueFactory(new PropertyValueFactory<>("name"));
-        surname = new TableColumn("фамилия");
-        surname.setCellValueFactory(new PropertyValueFactory<>("surname"));
-        patronymic = new TableColumn("отчество");
-        patronymic.setCellValueFactory(new PropertyValueFactory<>("patronymic"));
-        fio = new TableColumn("ФИО");
-        fio.getColumns().addAll(surname, name, patronymic);
-        academicRank = new TableColumn("учёное звание");
-        academicRank.setCellValueFactory(new PropertyValueFactory<>("academicRank"));
-        academicDegree = new TableColumn("учёная степень");
-        academicDegree.setCellValueFactory(new PropertyValueFactory<>("academicDegree"));
-        experience = new TableColumn("стаж");
-        experience.setCellValueFactory(new PropertyValueFactory<>("experience"));
-        table.getColumns().addAll(faculty, department, fio, academicRank,
-                academicDegree, experience);
+        contractTable = new TableView<>();
+        contractTable.setMinSize(400, 300);
+        contractId = new TableColumn<>("номер контракта");
+        contractId.setCellValueFactory(new PropertyValueFactory<Contract, Integer>("contractId"));
+        companyName = new TableColumn<>("название компании");
+        companyName.setCellValueFactory(new PropertyValueFactory<Contract, String>("companyName"));
+        companyAddress = new TableColumn("адрес компании");
+        companyAddress.setCellValueFactory(new PropertyValueFactory<Contract, String>("companyAddress"));
+        date = new TableColumn("дата");
+        date.setCellValueFactory(new PropertyValueFactory<Contract, Date>("date"));
+        dateOfStart = new TableColumn("дата начала");
+        dateOfStart.setCellValueFactory(new PropertyValueFactory<Contract, Date>("dateOfStart"));
+        dateOfFinish = new TableColumn("дата окончания");
+        dateOfFinish.setCellValueFactory(new PropertyValueFactory<Contract, Date>("dateOfFinish"));
+        contractTable.getColumns().addAll(contractId, companyName, companyAddress,
+                                          date, dateOfStart, dateOfFinish);
         pagination.setPageCount(data.size() / rowsPerPage + 1);
         pagination.setPageFactory(this::createPage);
     }
 
-    public ArrayList<Personal> getData() {
+    public ArrayList<Contract> getData() {
         return new ArrayList<>(data);
     }
 
-    public void setData(ArrayList<Personal> data) {
+    public void setData(ArrayList<Contract> data) {
         this.data = FXCollections.observableArrayList(data);
         pagination.setPageCount(data.size() / rowsPerPage + 1);
         pagination.setPageFactory(this::createPage);
@@ -74,12 +69,12 @@ public class Table {
     private Node createPage(int pageIndex) {
         int fromIndex = pageIndex * rowsPerPage;
         int toIndex = Math.min(fromIndex + rowsPerPage, data.size());
-        table.setItems(FXCollections.observableArrayList(data.subList(fromIndex, toIndex)));
-        return new VBox(table);
+        contractTable.setItems(FXCollections.observableArrayList(data.subList(fromIndex, toIndex)));
+        return new VBox(contractTable);
     }
 
-    public void addPerson(Personal per){
-        this.data.add(per);
+    public void addContract(Contract contract){
+        this.data.add(contract);
         pagination.setPageCount(data.size() / rowsPerPage + 1);
         pagination.setPageFactory(this::createPage);
     }

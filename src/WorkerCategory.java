@@ -1,10 +1,11 @@
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.sql.Date;
 
 public class WorkerCategory {
-    private Date date;
+    private SimpleObjectProperty<Date> date;
     private SimpleStringProperty workerCategory;
     private SimpleIntegerProperty insurancePayout;
 
@@ -32,11 +33,15 @@ public class WorkerCategory {
         this.insurancePayout.set(insurancePayout);
     }
 
-    public Date getDate() {
+    public SimpleObjectProperty<Date> dateProperty() {
         return date;
     }
 
+    public Date getDate() {
+        return date.get();
+    }
+
     public void setDate(Date date) {
-        this.date = date;
+        this.date.set(date);
     }
 }

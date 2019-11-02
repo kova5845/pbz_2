@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import javax.sound.midi.ControllerEventListener;
+import java.sql.Date;
 
 public class View extends Application {
     Controller controller = new Controller(this);
@@ -74,6 +75,8 @@ public class View extends Application {
         agentDeleteItem.setOnAction((ActionEvent event) -> {
 
         });
+        Table table = new Table();
+
         menuBar.getMenus().addAll(fileMenu, addMenu, editMenu, deleteMenu, viewMenu);
         fileMenu.getItems().addAll(newItem, openItem, saveItem);
         addMenu.getItems().addAll(companyAddItem, workerAddItem, agentAddItem);
@@ -82,7 +85,10 @@ public class View extends Application {
 
 
         VBox root = new VBox();
-        root.getChildren().addAll(menuBar);
+        table.addContract(new Contract(1, "BSUIR",
+                "Kolasa 28", new Date(1999,10, 20),
+                new Date(1999,10, 20), new Date(1999,10, 20)));
+        root.getChildren().addAll(menuBar, table.pagination);
         Scene scene = new Scene(root, 700, 500);
         primaryStage.setTitle("Лабараторная работа №2");
         primaryStage.setScene(scene);
