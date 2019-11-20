@@ -1,7 +1,9 @@
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -11,6 +13,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import javax.sound.midi.ControllerEventListener;
+import java.io.File;
 import java.sql.Date;
 
 public class View extends Application {
@@ -25,19 +28,26 @@ public class View extends Application {
         Menu deleteMenu = new Menu("delete");
         Menu viewMenu = new Menu("view");
         MenuItem newItem = new MenuItem("new");
+        Table table = new Table();
         newItem.setOnAction((ActionEvent event) -> {
-
+            controller.connect();
         });
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("DB", "*.db"));
         MenuItem openItem = new MenuItem("open");
         openItem.setOnAction((ActionEvent event) -> {
-
+            File file = fileChooser.showOpenDialog(primaryStage);
+            if (file != null) {
+                table.setData(controller.openFile(file));
+            }
         });
         MenuItem saveItem = new MenuItem("save");
         saveItem.setOnAction((ActionEvent event) -> {
-
+            File file = fileChooser.showSaveDialog(primaryStage);
+            if (file != null) {
+                controller.saveFile(file);
+            }
         });
         MenuItem companyAddItem = new MenuItem("company");
         companyAddItem.setOnAction((ActionEvent event) -> {
@@ -75,20 +85,23 @@ public class View extends Application {
         agentDeleteItem.setOnAction((ActionEvent event) -> {
 
         });
-        Table table = new Table();
+
 
         menuBar.getMenus().addAll(fileMenu, addMenu, editMenu, deleteMenu, viewMenu);
         fileMenu.getItems().addAll(newItem, openItem, saveItem);
         addMenu.getItems().addAll(companyAddItem, workerAddItem, agentAddItem);
         editMenu.getItems().addAll(companyEditItem, workerEditItem, agentEditItem);
         deleteMenu.getItems().addAll(companyDeleteItem, workerDeleteItem, agentDeleteItem);
-
+        Button button = new Button("button");
+        button.setOnAction((ActionEvent event) -> {
+           table.changeTable(2);
+        });
 
         VBox root = new VBox();
-        table.addContract(new Contract(1, "BSUIR",
-                "Kolasa 28", new Date(1999,10, 20),
-                new Date(1999,10, 20), new Date(1999,10, 20)));
-        root.getChildren().addAll(menuBar, table.pagination);
+//        table.addContract(new Contract(1, "BSUIR",
+//                "Kolasa 28", new Date(1999,10, 20),
+//                new Date(1999,10, 20), new Date(1999,10, 20)));
+        root.getChildren().addAll(menuBar, table.pagination, button);
         Scene scene = new Scene(root, 700, 500);
         primaryStage.setTitle("Лабараторная работа №2");
         primaryStage.setScene(scene);
