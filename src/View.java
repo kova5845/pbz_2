@@ -1,5 +1,6 @@
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -15,6 +16,9 @@ import javafx.stage.WindowEvent;
 import javax.sound.midi.ControllerEventListener;
 import java.io.File;
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class View extends Application {
     Controller controller = new Controller(this);
@@ -30,28 +34,26 @@ public class View extends Application {
         MenuItem newItem = new MenuItem("new");
         Table table = new Table();
         newItem.setOnAction((ActionEvent event) -> {
-            controller.connect();
+            try{
+                SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+                java.util.Date parsed = format.parse("20180210");
+                java.sql.Date sql = new java.sql.Date(parsed.getTime());
+                controller.connect();
+                table.changeTable(1);
+                table.setData(controller.getContracts(
+                        "БГУИР", sql));
+            }
+            catch(ParseException e) {
+                System.out.println(e);
+            }
         });
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("DB", "*.db"));
-        MenuItem openItem = new MenuItem("open");
-        openItem.setOnAction((ActionEvent event) -> {
-            File file = fileChooser.showOpenDialog(primaryStage);
-            if (file != null) {
-                table.setData(controller.openFile(file));
-            }
-        });
-        MenuItem saveItem = new MenuItem("save");
-        saveItem.setOnAction((ActionEvent event) -> {
-            File file = fileChooser.showSaveDialog(primaryStage);
-            if (file != null) {
-                controller.saveFile(file);
-            }
-        });
         MenuItem companyAddItem = new MenuItem("company");
         companyAddItem.setOnAction((ActionEvent event) -> {
-
+            Dialog dialog = new Dialog();
+            dialog.showDialog(primaryStage);
         });
         MenuItem workerAddItem = new MenuItem("worker");
         workerAddItem.setOnAction((ActionEvent event) -> {
@@ -88,7 +90,7 @@ public class View extends Application {
 
 
         menuBar.getMenus().addAll(fileMenu, addMenu, editMenu, deleteMenu, viewMenu);
-        fileMenu.getItems().addAll(newItem, openItem, saveItem);
+        fileMenu.getItems().addAll(newItem);
         addMenu.getItems().addAll(companyAddItem, workerAddItem, agentAddItem);
         editMenu.getItems().addAll(companyEditItem, workerEditItem, agentEditItem);
         deleteMenu.getItems().addAll(companyDeleteItem, workerDeleteItem, agentDeleteItem);

@@ -14,19 +14,38 @@ public class Company {
     private SimpleStringProperty agentName;
     private SimpleStringProperty agentSurname;
     private SimpleStringProperty agentPatronymic;
-    private SimpleStringProperty companyShortName;
     private SimpleIntegerProperty workerCategory;
     private SimpleIntegerProperty insurancePayout;
 
+    public Company(){
+        this.contractId = new SimpleIntegerProperty();
+        this.companyName = new SimpleStringProperty();
+        this.companyAddress = new SimpleStringProperty();
+        this.date = new SimpleObjectProperty<>();
+        this.dateOfStart = new SimpleObjectProperty<>();
+        this.dateOfFinish = new SimpleObjectProperty<>();
+        this.agentName = new SimpleStringProperty();
+        this.agentSurname = new SimpleStringProperty();
+        this.agentPatronymic = new SimpleStringProperty();
+        this.workerCategory = new SimpleIntegerProperty();
+        this.insurancePayout = new SimpleIntegerProperty();
+    }
 
     public Company(Integer contractId, String companyName, String companyAddress,
-                   Date date, Date dateOfStart, Date dateOfFinish){
+                   Date date, Date dateOfStart, Date dateOfFinish, String agentName,
+                   String agentSurname, String agentPatronymic, Integer workerCategory,
+                   Integer insurancePayout){
         this.contractId = new SimpleIntegerProperty(contractId);
         this.companyName = new SimpleStringProperty(companyName);
         this.companyAddress = new SimpleStringProperty(companyAddress);
         this.date = new SimpleObjectProperty<>(date);
         this.dateOfStart = new SimpleObjectProperty<>(dateOfStart);
         this.dateOfFinish = new SimpleObjectProperty<>(dateOfFinish);
+        this.agentName = new SimpleStringProperty(agentName);
+        this.agentSurname = new SimpleStringProperty(agentSurname);
+        this.agentPatronymic = new SimpleStringProperty(agentPatronymic);
+        this.workerCategory = new SimpleIntegerProperty(workerCategory);
+        this.insurancePayout = new SimpleIntegerProperty(insurancePayout);
     }
 
     public String getCompanyName() {
@@ -77,10 +96,6 @@ public class Company {
         this.date.set(date);
     }
 
-    public String getCompanyShortName() {
-        return companyShortName.get();
-    }
-
     public String getAgentSurname() {
         return agentSurname.get();
     }
@@ -91,10 +106,6 @@ public class Company {
 
     public String getAgentName() {
         return agentName.get();
-    }
-
-    public void setCompanyShortName(String companyShortName) {
-        this.companyShortName.set(companyShortName);
     }
 
     public void setAgentSurname(String agentSurname) {
@@ -124,4 +135,5 @@ public class Company {
     public void setInsurancePayout(int insurancePayout) {
         this.insurancePayout.set(insurancePayout);
     }
+
 }

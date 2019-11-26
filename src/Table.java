@@ -10,21 +10,21 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 
 
+
 public class Table {
     Pagination pagination;
     TableView<Company> table;
-    TableColumn contractId;
-    TableColumn companyName;
-    TableColumn companyAddress;
-    TableColumn date;
-    TableColumn dateOfStart;
-    TableColumn dateOfFinish;
-    TableColumn agentName;
-    TableColumn agentSurname;
-    TableColumn agentPatronymic;
-    TableColumn companyShortName;
-    TableColumn workerCategory;
-    TableColumn insurancePayout;
+    TableColumn<Company, Integer> contractId;
+    TableColumn<Company, String> companyName;
+    TableColumn<Company, String> companyAddress;
+    TableColumn<Company, Date> date;
+    TableColumn<Company, Date> dateOfStart;
+    TableColumn<Company, Date> dateOfFinish;
+    TableColumn<Company, String> agentName;
+    TableColumn<Company, String> agentSurname;
+    TableColumn<Company, String> agentPatronymic;
+    TableColumn<Company, Integer> workerCategory;
+    TableColumn<Company, Integer> insurancePayout;
 
     int rowsPerPage = 10;
     ObservableList<Company> data = FXCollections.observableArrayList();
@@ -33,6 +33,7 @@ public class Table {
     public Table() {
         pagination = new Pagination((data.size() / rowsPerPage + 1), 0);
         table = new TableView<>();
+        table.setEditable(true);
         changeTable(1);
         pagination.setPageCount(data.size() / rowsPerPage + 1);
         pagination.setPageFactory(this::createPage);
@@ -48,14 +49,13 @@ public class Table {
                 companyName.setCellValueFactory(new PropertyValueFactory<Company, String>("companyName"));
                 companyAddress = new TableColumn("адрес компании");
                 companyAddress.setCellValueFactory(new PropertyValueFactory<Company, String>("companyAddress"));
-                date = new TableColumn("дата");
-                date.setCellValueFactory(new PropertyValueFactory<Company, Date>("date"));
+//                date = new TableColumn("дата");
+//                date.setCellValueFactory(new PropertyValueFactory<Company, Date>("date"));
                 dateOfStart = new TableColumn("дата начала");
                 dateOfStart.setCellValueFactory(new PropertyValueFactory<Company, Date>("dateOfStart"));
                 dateOfFinish = new TableColumn("дата окончания");
                 dateOfFinish.setCellValueFactory(new PropertyValueFactory<Company, Date>("dateOfFinish"));
-                table.getColumns().addAll(contractId, companyName, companyAddress,
-                        date, dateOfStart, dateOfFinish);
+                table.getColumns().addAll(contractId, companyName, companyAddress, dateOfStart, dateOfFinish);
                 break;
             case 2:
                 table.getColumns().clear();
@@ -65,15 +65,15 @@ public class Table {
                 agentSurname.setCellValueFactory(new PropertyValueFactory<Company, String>("agentSurname"));
                 agentPatronymic = new TableColumn("отчество");
                 agentPatronymic.setCellValueFactory(new PropertyValueFactory<Company, String>("agentPatronymic"));
-                companyShortName = new TableColumn("компания");
-                companyShortName.setCellValueFactory(new PropertyValueFactory<Company, String>("companyShortName"));
+                companyName = new TableColumn("компания");
+                companyName.setCellValueFactory(new PropertyValueFactory<Company, String>("companyName"));
                 date = new TableColumn("дата");
                 date.setCellValueFactory(new PropertyValueFactory<Company, Date>("date"));
                 dateOfStart = new TableColumn("дата начала");
                 dateOfStart.setCellValueFactory(new PropertyValueFactory<Company, Date>("dateOfStart"));
                 dateOfFinish = new TableColumn("дата окончания");
                 dateOfFinish.setCellValueFactory(new PropertyValueFactory<Company, Date>("dateOfFinish"));
-                table.getColumns().addAll(agentName, agentSurname, agentPatronymic, companyShortName,
+                table.getColumns().addAll(agentName, agentSurname, agentPatronymic, companyName,
                         date, dateOfStart, dateOfFinish);
                 break;
             case 3:
@@ -81,7 +81,7 @@ public class Table {
                 workerCategory = new TableColumn<>("категория сотрудников");
                 workerCategory.setCellValueFactory(new PropertyValueFactory<Company, Integer>("workerCategory"));
                 insurancePayout = new TableColumn<>("страховые выплаты");
-                insurancePayout.setCellValueFactory(new PropertyValueFactory<Company, String>("insurancePayout"));
+                insurancePayout.setCellValueFactory(new PropertyValueFactory<Company, Integer>("insurancePayout"));
                 date = new TableColumn("дата");
                 date.setCellValueFactory(new PropertyValueFactory<Company, Date>("date"));
                 table.getColumns().addAll(workerCategory, insurancePayout, date);
