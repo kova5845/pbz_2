@@ -23,6 +23,7 @@ public class Table {
     TableColumn<Company, String> agentName;
     TableColumn<Company, String> agentSurname;
     TableColumn<Company, String> agentPatronymic;
+    TableColumn<Company, String> agentPassportNumber;
     TableColumn<Company, Integer> workerCategory;
     TableColumn<Company, Integer> insurancePayout;
 
@@ -65,16 +66,18 @@ public class Table {
                 agentSurname.setCellValueFactory(new PropertyValueFactory<Company, String>("agentSurname"));
                 agentPatronymic = new TableColumn("отчество");
                 agentPatronymic.setCellValueFactory(new PropertyValueFactory<Company, String>("agentPatronymic"));
+                agentPassportNumber = new TableColumn("номер паспорта");
+                agentPassportNumber.setCellValueFactory(new PropertyValueFactory<Company, String>("agentPassportNumber"));
                 companyName = new TableColumn("компания");
                 companyName.setCellValueFactory(new PropertyValueFactory<Company, String>("companyName"));
-                date = new TableColumn("дата");
-                date.setCellValueFactory(new PropertyValueFactory<Company, Date>("date"));
-                dateOfStart = new TableColumn("дата начала");
-                dateOfStart.setCellValueFactory(new PropertyValueFactory<Company, Date>("dateOfStart"));
-                dateOfFinish = new TableColumn("дата окончания");
-                dateOfFinish.setCellValueFactory(new PropertyValueFactory<Company, Date>("dateOfFinish"));
-                table.getColumns().addAll(agentName, agentSurname, agentPatronymic, companyName,
-                        date, dateOfStart, dateOfFinish);
+//                date = new TableColumn("дата");
+//                date.setCellValueFactory(new PropertyValueFactory<Company, Date>("date"));
+//                dateOfStart = new TableColumn("дата начала");
+//                dateOfStart.setCellValueFactory(new PropertyValueFactory<Company, Date>("dateOfStart"));
+//                dateOfFinish = new TableColumn("дата окончания");
+//                dateOfFinish.setCellValueFactory(new PropertyValueFactory<Company, Date>("dateOfFinish"));
+                table.getColumns().addAll(agentSurname, agentName, agentPatronymic, agentPassportNumber,
+                        companyName);
                 break;
             case 3:
                 table.getColumns().clear();
@@ -82,9 +85,9 @@ public class Table {
                 workerCategory.setCellValueFactory(new PropertyValueFactory<Company, Integer>("workerCategory"));
                 insurancePayout = new TableColumn<>("страховые выплаты");
                 insurancePayout.setCellValueFactory(new PropertyValueFactory<Company, Integer>("insurancePayout"));
-                date = new TableColumn("дата");
-                date.setCellValueFactory(new PropertyValueFactory<Company, Date>("date"));
-                table.getColumns().addAll(workerCategory, insurancePayout, date);
+//                date = new TableColumn("дата");
+//                date.setCellValueFactory(new PropertyValueFactory<Company, Date>("date"));
+                table.getColumns().addAll(workerCategory, insurancePayout);
                 break;
         }
     }
@@ -94,6 +97,7 @@ public class Table {
     }
 
     public void setData(ArrayList<Company> data) {
+        this.data.clear();
         this.data = FXCollections.observableArrayList(data);
         pagination.setPageCount(data.size() / rowsPerPage + 1);
         pagination.setPageFactory(this::createPage);

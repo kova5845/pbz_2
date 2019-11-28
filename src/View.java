@@ -21,10 +21,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 public class View extends Application {
-    Controller controller = new Controller(this);
+    Controller controller;
+    Table table;
 
     @Override
     public void start(Stage primaryStage) {
+        controller = new Controller(this);
+        controller.connect();
         MenuBar menuBar = new MenuBar();
         Menu fileMenu = new Menu("file");
         Menu addMenu = new Menu("add");
@@ -32,28 +35,16 @@ public class View extends Application {
         Menu deleteMenu = new Menu("delete");
         Menu viewMenu = new Menu("view");
         MenuItem newItem = new MenuItem("new");
-        Table table = new Table();
+        table = new Table();
         newItem.setOnAction((ActionEvent event) -> {
-            try{
-                SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-                java.util.Date parsed = format.parse("20180210");
-                java.sql.Date sql = new java.sql.Date(parsed.getTime());
-                controller.connect();
-                table.changeTable(1);
-                table.setData(controller.getContracts(
-                        "БГУИР", sql));
-            }
-            catch(ParseException e) {
-                System.out.println(e);
-            }
+
         });
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("DB", "*.db"));
         MenuItem companyAddItem = new MenuItem("company");
         companyAddItem.setOnAction((ActionEvent event) -> {
-            Dialog dialog = new Dialog();
-            dialog.showDialog(primaryStage);
+
         });
         MenuItem workerAddItem = new MenuItem("worker");
         workerAddItem.setOnAction((ActionEvent event) -> {
@@ -87,23 +78,37 @@ public class View extends Application {
         agentDeleteItem.setOnAction((ActionEvent event) -> {
 
         });
-
+        MenuItem viewContracts = new MenuItem("contracts");
+        viewContracts.setOnAction((ActionEvent event) -> {
+            Dialog dialog = new Dialog(this);
+            dialog.findContracts();
+            dialog.showDialog(primaryStage);
+        });
+        MenuItem viewAgents = new MenuItem("agents");
+        viewAgents.setOnAction((ActionEvent event) -> {
+            Dialog dialog = new Dialog(this);
+            dialog.findAgents();
+            dialog.showDialog(primaryStage);
+        });
+        MenuItem viewCategories = new MenuItem("categories");
+        viewCategories.setOnAction((ActionEvent event) -> {
+            Dialog dialog = new Dialog(this);
+            dialog.findCategories();
+            dialog.showDialog(primaryStage);
+        });
 
         menuBar.getMenus().addAll(fileMenu, addMenu, editMenu, deleteMenu, viewMenu);
         fileMenu.getItems().addAll(newItem);
         addMenu.getItems().addAll(companyAddItem, workerAddItem, agentAddItem);
         editMenu.getItems().addAll(companyEditItem, workerEditItem, agentEditItem);
         deleteMenu.getItems().addAll(companyDeleteItem, workerDeleteItem, agentDeleteItem);
-        Button button = new Button("button");
-        button.setOnAction((ActionEvent event) -> {
-           table.changeTable(2);
-        });
+        viewMenu.getItems().addAll(viewContracts, viewAgents, viewCategories);
 
         VBox root = new VBox();
 //        table.addContract(new Contract(1, "BSUIR",
 //                "Kolasa 28", new Date(1999,10, 20),
 //                new Date(1999,10, 20), new Date(1999,10, 20)));
-        root.getChildren().addAll(menuBar, table.pagination, button);
+        root.getChildren().addAll(menuBar, table.pagination);
         Scene scene = new Scene(root, 700, 500);
         primaryStage.setTitle("Лабараторная работа №2");
         primaryStage.setScene(scene);
@@ -116,5 +121,17 @@ public class View extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public void getContracts(String company, String date){
+        table.setData(controller.getContracts(company, date));
+    }
+
+    public void getAgents(String company, String date){
+        table.setData(controller.getAgents(company, date));
+    }
+
+    public void getCategories(String date){
+        table.setData(controller.getCategories(date));
     }
 }

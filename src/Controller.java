@@ -11,12 +11,16 @@ public class Controller {
         this.model = new Model();
     }
 
-    public ArrayList<Company> getContracts(String company, Date date){
+    public ArrayList<Company> getContracts(String company, String date){
         return model.getContracts(company, date);
     }
 
-    public void setData(ArrayList<Company> data){
-        model.setData(data);
+    public ArrayList<Company> getAgents(String company, String date){
+        return model.getAgents(company, date);
+    }
+
+    public ArrayList<Company> getCategories(String date){
+        return model.getCategories(date);
     }
 
     public void connect(){

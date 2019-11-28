@@ -14,6 +14,7 @@ public class Company {
     private SimpleStringProperty agentName;
     private SimpleStringProperty agentSurname;
     private SimpleStringProperty agentPatronymic;
+    private SimpleStringProperty agentPassportNumber;
     private SimpleIntegerProperty workerCategory;
     private SimpleIntegerProperty insurancePayout;
 
@@ -27,14 +28,15 @@ public class Company {
         this.agentName = new SimpleStringProperty();
         this.agentSurname = new SimpleStringProperty();
         this.agentPatronymic = new SimpleStringProperty();
+        this.agentPassportNumber = new SimpleStringProperty();
         this.workerCategory = new SimpleIntegerProperty();
         this.insurancePayout = new SimpleIntegerProperty();
     }
 
     public Company(Integer contractId, String companyName, String companyAddress,
                    Date date, Date dateOfStart, Date dateOfFinish, String agentName,
-                   String agentSurname, String agentPatronymic, Integer workerCategory,
-                   Integer insurancePayout){
+                   String agentSurname, String agentPatronymic, String agentPassportNumber,
+                   Integer workerCategory, Integer insurancePayout){
         this.contractId = new SimpleIntegerProperty(contractId);
         this.companyName = new SimpleStringProperty(companyName);
         this.companyAddress = new SimpleStringProperty(companyAddress);
@@ -44,6 +46,7 @@ public class Company {
         this.agentName = new SimpleStringProperty(agentName);
         this.agentSurname = new SimpleStringProperty(agentSurname);
         this.agentPatronymic = new SimpleStringProperty(agentPatronymic);
+        this.agentPatronymic = new SimpleStringProperty(agentPassportNumber);
         this.workerCategory = new SimpleIntegerProperty(workerCategory);
         this.insurancePayout = new SimpleIntegerProperty(insurancePayout);
     }
@@ -134,6 +137,14 @@ public class Company {
 
     public void setInsurancePayout(int insurancePayout) {
         this.insurancePayout.set(insurancePayout);
+    }
+
+    public void setAgentPassportNumber(String agentPassportNumber) {
+        this.agentPassportNumber.set(agentPassportNumber);
+    }
+
+    public String getAgentPassportNumber() {
+        return agentPassportNumber.get();
     }
 
 }
