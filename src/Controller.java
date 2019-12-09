@@ -55,6 +55,18 @@ public class Controller {
         model.editAgent(company);
     }
 
+    public void addWorker(Company company){
+        model.addWorker(company);
+    }
+
+    public void addCompany(Company company){
+        model.addCompany(company);
+    }
+
+    public void addAgent(Company company){
+        model.addAgent(company);
+    }
+
     public void editWorker(Company company){
         model.editWorker(company);
     }

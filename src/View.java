@@ -41,15 +41,21 @@ public class View extends Application {
         });
         MenuItem companyAddItem = new MenuItem("company");
         companyAddItem.setOnAction((ActionEvent event) -> {
-
+            Dialog dialog = new Dialog(this);
+            dialog.addCompany();
+            dialog.showDialog(primaryStage);
         });
         MenuItem workerAddItem = new MenuItem("worker");
         workerAddItem.setOnAction((ActionEvent event) -> {
-
+            Dialog dialog = new Dialog(this);
+            dialog.addWorker();
+            dialog.showDialog(primaryStage);
         });
         MenuItem agentAddItem = new MenuItem("agent");
         agentAddItem.setOnAction((ActionEvent event) -> {
-
+            Dialog dialog = new Dialog(this);
+            dialog.addAgent();
+            dialog.showDialog(primaryStage);
         });
         MenuItem companyEditItem = new MenuItem("company");
         companyEditItem.setOnAction((ActionEvent event) -> {
@@ -102,7 +108,6 @@ public class View extends Application {
             dialog.findCategories();
             dialog.showDialog(primaryStage);
         });
-
         MenuItem viewCompany = new MenuItem("company");
         viewCompany.setOnAction((ActionEvent event) -> {
             table.changeTable(4);
@@ -168,6 +173,21 @@ public class View extends Application {
 
     public void getWorker(Company company){
         controller.editWorker(company);
+        table.setData(controller.getWorker());
+    }
+
+    public void addCompany(Company company){
+        controller.addCompany(company);
+        table.setData(controller.getCompany());
+    }
+
+    public void addAgent(Company company){
+        controller.addAgent(company);
+        table.setData(controller.getAgent());
+    }
+
+    public void addWorker(Company company){
+        controller.addWorker(company);
         table.setData(controller.getWorker());
     }
 }

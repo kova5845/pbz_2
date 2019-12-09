@@ -19,7 +19,7 @@ public class Company {
     private SimpleStringProperty agentName;
     private SimpleStringProperty agentSurname;
     private SimpleStringProperty agentPatronymic;
-    private SimpleStringProperty agentPassportNumber;
+    private SimpleIntegerProperty agentPassportNumber;
     private SimpleIntegerProperty workerCategory;
     private SimpleIntegerProperty insurancePayout;
     private SimpleIntegerProperty workerId;
@@ -44,7 +44,7 @@ public class Company {
         this.agentName = new SimpleStringProperty();
         this.agentSurname = new SimpleStringProperty();
         this.agentPatronymic = new SimpleStringProperty();
-        this.agentPassportNumber = new SimpleStringProperty();
+        this.agentPassportNumber = new SimpleIntegerProperty();
         this.workerCategory = new SimpleIntegerProperty();
         this.insurancePayout = new SimpleIntegerProperty();
         this.workerId = new SimpleIntegerProperty();
@@ -160,11 +160,11 @@ public class Company {
         this.insurancePayout.set(insurancePayout);
     }
 
-    public void setAgentPassportNumber(String agentPassportNumber) {
+    public void setAgentPassportNumber(int agentPassportNumber) {
         this.agentPassportNumber.set(agentPassportNumber);
     }
 
-    public String getAgentPassportNumber() {
+    public int getAgentPassportNumber() {
         return agentPassportNumber.get();
     }
 

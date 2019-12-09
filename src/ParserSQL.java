@@ -12,7 +12,7 @@ public class ParserSQL {
     private static Statement statement;
     private static ResultSet resultSet;
     private static PreparedStatement preparedStatement;
-    private Company com = new Company();
+    //private Company com = new Company();
     private ArrayList<Company> arrayList = new ArrayList<>();
 
 
@@ -47,8 +47,8 @@ public class ParserSQL {
             preparedStatement.setString(3, date);
             resultSet = preparedStatement.executeQuery();
 
-
             while(resultSet.next()){
+                Company com = new Company();
                 com.setCompanyName(resultSet.getString("company_short_name"));
                 com.setCompanyAddress(resultSet.getString("company_addres"));
                 com.setContractId(resultSet.getInt("contract_id"));
@@ -81,11 +81,12 @@ public class ParserSQL {
 
 
             while(resultSet.next()){
+                Company com = new Company();
                 com.setCompanyName(resultSet.getString("company_short_name"));
                 com.setAgentName(resultSet.getString("agent_name"));
                 com.setAgentSurname(resultSet.getString("agent_surname"));
                 com.setAgentPatronymic(resultSet.getString("agent_patronymic"));
-                com.setAgentPassportNumber(resultSet.getString("agent_passport_number"));
+                com.setAgentPassportNumber(resultSet.getInt("agent_passport_number"));
                 arrayList.add(com);
             }
         }
@@ -105,6 +106,7 @@ public class ParserSQL {
             resultSet = preparedStatement.executeQuery();
 
             while(resultSet.next()){
+                Company com = new Company();
                 com.setCompanyId(resultSet.getInt("company_id"));
                 com.setCompanyFullName(resultSet.getString("company_full_name"));
                 com.setCompanyName(resultSet.getString("company_short_name"));
@@ -130,6 +132,7 @@ public class ParserSQL {
             resultSet = preparedStatement.executeQuery();
 
             while(resultSet.next()){
+                Company com = new Company();
                 com.setWorkerId(resultSet.getInt("worker_id"));
                 com.setWorkerName(resultSet.getString("worker_name"));
                 com.setWorkerSurname(resultSet.getString("worker_surname"));
@@ -154,11 +157,12 @@ public class ParserSQL {
             resultSet = preparedStatement.executeQuery();
 
             while(resultSet.next()){
+                Company com = new Company();
                 com.setAgentId(resultSet.getInt("agent_id"));
                 com.setAgentName(resultSet.getString("agent_name"));
                 com.setAgentSurname(resultSet.getString("agent_surname"));
                 com.setAgentPatronymic(resultSet.getString("agent_patronymic"));
-                com.setAgentPassportNumber(resultSet.getString("agent_passport_number"));
+                com.setAgentPassportNumber(resultSet.getInt("agent_passport_number"));
                 arrayList.add(com);
             }
         }
@@ -183,8 +187,8 @@ public class ParserSQL {
             preparedStatement.setString(2, date);
             resultSet = preparedStatement.executeQuery();
 
-
             while(resultSet.next()){
+                Company com = new Company();
                 com.setWorkerCategory(resultSet.getInt("category"));
                 com.setInsurancePayout(resultSet.getInt("payouts_by_category"));
                 arrayList.add(com);
@@ -286,13 +290,13 @@ public class ParserSQL {
                     "agent_surname = ?," +
                     "agent_name = ?," +
                     "agent_patronymic = ?," +
-                    "agent_passport_number = ?" +
+                    "agent_passport_number = ? " +
                     "WHERE agent_id = ?;");
             preparedStatement.setInt(1, company.getAgentId());
             preparedStatement.setString(2, company.getAgentSurname());
             preparedStatement.setString(3, company.getAgentName());
             preparedStatement.setString(4, company.getAgentPatronymic());
-            preparedStatement.setString(5, company.getAgentPassportNumber());
+            preparedStatement.setInt(5, company.getAgentPassportNumber());
             preparedStatement.setInt(6, company.getAgentId());
             preparedStatement.executeUpdate();
         }
@@ -319,6 +323,61 @@ public class ParserSQL {
             preparedStatement.setString(4, company.getWorkerPatronymic());
             preparedStatement.setInt(5, company.getWorkerAge());
             preparedStatement.setInt(6, company.getWorkerId());
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addCompany(Company company){
+        try {
+            preparedStatement = connection.prepareStatement("INSERT INTO companys VALUES\n" +
+                    "(NULL, ?, ?, ?, ?, ?);");
+            preparedStatement.setString(1, company.getCompanyFullName());
+            preparedStatement.setString(2, company.getCompanyName());
+            preparedStatement.setString(3, company.getCompanyAddress());
+            preparedStatement.setInt(4, company.getBankDetails());
+            preparedStatement.setString(5, company.getCompanySpecialisation());
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addAgent(Company company){
+        try {
+            preparedStatement = connection.prepareStatement("INSERT INTO agents VALUES\n" +
+                    "(NULL, ?, ?, ?, ?);");
+            preparedStatement.setString(1, company.getAgentName());
+            preparedStatement.setString(2, company.getAgentSurname());
+            preparedStatement.setString(3, company.getAgentPatronymic());
+            preparedStatement.setInt(4, company.getAgentPassportNumber());
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addWorker(Company company){
+        try {
+            preparedStatement = connection.prepareStatement("INSERT INTO workers VALUES\n" +
+                    "(NULL, ?, ?, ?, ?);");
+            preparedStatement.setString(1, company.getWorkerName());
+            preparedStatement.setString(2, company.getWorkerSurname());
+            preparedStatement.setString(3, company.getWorkerPatronymic());
+            preparedStatement.setInt(4, company.getWorkerAge());
             preparedStatement.executeUpdate();
         }
         catch (SQLException e) {

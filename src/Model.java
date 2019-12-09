@@ -53,5 +53,17 @@ public class Model {
     public void editWorker(Company company){
         parser.editWorker(company);
     }
+
+    public void addWorker(Company company){
+        parser.addWorker(company);
+    }
+
+    public void addCompany(Company company){
+        parser.addCompany(company);
+    }
+
+    public void addAgent(Company company){
+        parser.addAgent(company);
+    }
 }
 
